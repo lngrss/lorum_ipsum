@@ -13,6 +13,10 @@ get '/' do
   erb :index
 end
 
+get '/home' do
+  erb :home
+end
+
 post '/contact' do
   @name = params[:name]
   @email = params[:email]
