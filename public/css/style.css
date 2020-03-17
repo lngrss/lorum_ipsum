@@ -68,6 +68,7 @@ h3 {
   opacity: .9;
   margin-top: 2px;
   margin-bottom: 4px;
+  border: 1px solid green;
 }
 
 .contactform {

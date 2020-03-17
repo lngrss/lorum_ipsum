@@ -18,14 +18,14 @@ class NameValidator
     def validate
       if @name.empty?
         @message = "You need to enter a name."
-      elsif numberless?
+      elsif !without_numbers?
         @message = "Please enter a valid name."
       elsif @names.include?(@name)
         @message = "#{@name} is already included in our list."
       end
     end
 
-    def numberless?
+    def without_numbers?
       (0..9).to_a.none? { |num| @name.include? num.to_s }
     end
 end

@@ -36,7 +36,7 @@ post '/contact' do
   erb :contact
 end
 
-# get '/messages' do
-#   @users_list = users.all
-#   erb :messages
-# end
+get '/messages' do
+  @users_list = users.all
+  erb :messages
+end
