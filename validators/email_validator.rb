@@ -18,7 +18,7 @@ class EmailValidator
     def validate
       if @email.empty?
         @message = "You need to enter a email."
-      elsif correct_format?
+      elsif !correct_format?
         @message = "Please enter a valid email."
       elsif @emails.include?(@email)
         @message = "#{@email} is already included in our list."

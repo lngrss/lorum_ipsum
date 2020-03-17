@@ -25,18 +25,19 @@ post '/contact' do
   @emails = users.select('email')
   name_validator = NameValidator.new(@name, @names)
   email_validator = EmailValidator.new(@email, @emails)
-
+  puts 'Hey there, you are now in a post'
   if name_validator.valid? & email_validator.valid?
+    puts 'Looks valid enough' + @email
     user_id = users.insert(:name => @name, :email => @email)
     messages.insert(:user_id => user_id, :text => params[:message])
   else
     puts name_validator.message
-    puts email_validator.message
+    puts email_validator.message + params[:email]
   end
   erb :contact
 end
 
 get '/messages' do
-  @users_list = users.all
+  @messages_list = messages.all
   erb :messages
 end

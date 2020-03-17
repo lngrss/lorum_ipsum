@@ -1,3 +1,12 @@
 <p>Thank you for your message, <%= @name %>!</p>
 
-<a href='/' class='link'>Back</a>
+<div class="text-body">
+  <form action="/home">
+    <input type="submit" value="Back to Home" class="button">
+  </form>
+</div>
+<div class="text-body">
+  <form action="/messages">
+    <input type="submit" value="See all Messages" class="button">
+  </form>
+</div>
