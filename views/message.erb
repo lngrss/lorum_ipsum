@@ -1,0 +1,8 @@
+<% @message.each do |message| -%>
+<h2><%= message[:text] %></h2>
+<% end -%>
+<div class="text-body">
+  <form action="/messages">
+    <input type="submit" value="Back" class="button">
+  </form>
+</div>

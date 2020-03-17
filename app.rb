@@ -41,3 +41,10 @@ get '/messages' do
   @messages_list = messages.all
   erb :messages
 end
+
+get "/messages/:id" do
+  @message = messages.where(id: params[:id]).to_a
+  @user = users.where(id: @message[0][:user_id]).to_a
+  puts @user
+  erb :message
+end
