@@ -1,11 +1,11 @@
-<% @messages_list.each do |message| -%>
-<p> Id: <%= message[:id] %>, User: <%= message[:user_id] %>, Message: <%= message[:text] %></p>
-<form action="/messages/<%= message[:id] %>">
-  <input type="submit" value="Show me more" class="button">
-</form>
-<% end -%>
-
 <div class="text-body">
+  <% @messages_list.each do |message| -%>
+  <p> Id: <%= message[:id] %>, User: <%= message[:user_id] %>, Message: <%= message[:text] %></p>
+  <form action="/messages/<%= message[:id] %>">
+    <input type="submit" value="Show me more" class="button">
+  </form>
+  <% end -%>
+
   <form action="/home">
     <input type="submit" value="Bring me back Home" class="button">
   </form>

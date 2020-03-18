@@ -100,3 +100,8 @@ h3 {
   padding-bottom: 1px;
   border-radius: 15px;
 }
+
+.logout {
+  position: relative;
+  right: 10px;
+}
