@@ -1,6 +1,7 @@
 require_relative 'config/database'
 require_relative 'validators/name_validator'
 require_relative 'validators/email_validator'
+require_relative 'validators/user_validator'
 require 'sinatra'
 require 'erb'
 require 'time'
@@ -13,13 +14,48 @@ messages = DB[:messages]
 
 
 post '/login' do
-  session[:logged_in] = true
-  redirect to('/')
+  @user = params
+  @users = users
+  user_validator = UserValidator.new(@user, @users)
+  if user_validator.valid?
+    session[:logged_in] = true
+    session[:user_id] = users.where(params)
+    p session
+    redirect to('/')
+  else
+    puts @message
+    redirect to('/register')
+  end
 end
 
 post '/logout' do
   session[:logged_in] = false
+  session[:user_id] = nil
   redirect to('/')
+end
+
+get '/register' do
+  erb :register
+end
+
+post '/register' do
+  @name = params[:name]
+  @email = params[:email]
+
+  @names = users.select('name')
+  @emails = users.select('email')
+  name_validator = NameValidator.new(@name, @names)
+  email_validator = EmailValidator.new(@email, @emails)
+
+  if name_validator.valid? & email_validator.valid?
+    puts 'Looks valid enough' + @email
+    session[:user_id] = users.insert(:name => @name, :email => @email, :password => params[:password])
+    session[:logged_in] = true
+    redirect to('/home')
+  else
+    puts name_validator.message
+    puts email_validator.message + params[:email]
+  end
 end
 
 get '/' do
