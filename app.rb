@@ -19,8 +19,8 @@ post '/login' do
   user_validator = UserValidator.new(@user, @users)
   if user_validator.valid?
     session[:logged_in] = true
-    session[:user_id] = users.where(params)
-    p session
+    user_hash = users.where(name: params[:name], password: params[:password]).to_a[0]
+    session[:user_id] = user_hash[:id]
     redirect to('/')
   else
     puts @message
@@ -48,7 +48,6 @@ post '/register' do
   email_validator = EmailValidator.new(@email, @emails)
 
   if name_validator.valid? & email_validator.valid?
-    puts 'Looks valid enough' + @email
     session[:user_id] = users.insert(:name => @name, :email => @email, :password => params[:password])
     session[:logged_in] = true
     redirect to('/home')
@@ -75,22 +74,7 @@ get '/home' do
 end
 
 post '/contact' do
-  @name = params[:name]
-  @email = params[:email]
-
-  @names = users.select('name')
-  @emails = users.select('email')
-  name_validator = NameValidator.new(@name, @names)
-  email_validator = EmailValidator.new(@email, @emails)
-  puts 'Hey there, you are now in a post'
-  if name_validator.valid? & email_validator.valid?
-    puts 'Looks valid enough' + @email
-    user_id = users.insert(:name => @name, :email => @email)
-    messages.insert(:user_id => user_id, :text => params[:message])
-  else
-    puts name_validator.message
-    puts email_validator.message + params[:email]
-  end
+  messages.insert(:user_id => session[:user_id], :text => params[:message])
   erb :contact
 end
 
@@ -106,7 +90,9 @@ end
 get "/messages/:id" do
   if session[:logged_in]
     @message = messages.where(id: params[:id]).to_a
+    p @message
     @user = users.where(id: @message[0][:user_id]).to_a
+    p @user
     erb :message
   else
     redirect to('/')

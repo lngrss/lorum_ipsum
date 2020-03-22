@@ -1,6 +1,6 @@
-<% @message.each do |message| -%>
+<% message = @message[0] -%>
 <h2><%= message[:text] %></h2>
-<% end -%>
+<p>By <%= @user[0][:name] %></p>
 <div class="text-body">
   <form action="/messages">
     <input type="submit" value="Back" class="button">
